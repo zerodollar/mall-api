@@ -1,0 +1,165 @@
+swagger: "2.0"
+info:
+  title: MallApi支持的接口
+  description: MallApi提供CMS的API
+  version: 1.0.0
+  termsOfService: http://www.mallapi.com/
+  contact:
+    email: z29759@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /SYS_MENU_INF/:
+    get:
+      tags:
+      - SYS_MENU_INF
+      description: get SYSMENUINF
+      operationId: SYSMENUINFController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/models.SYSMENUINF'
+        "403": {}
+    post:
+      tags:
+      - SYS_MENU_INF
+      description: 创建 SYSMENUINF
+      operationId: SYSMENUINFController.Post
+      parameters:
+      - in: body
+        name: body
+        description: SYSMENUINF内容
+        required: true
+        schema:
+          $ref: '#/definitions/models.SYSMENUINF'
+      responses:
+        "201":
+          description: '{int} models.SYSMENUINF'
+        "403":
+          description: body is empty
+  /SYS_MENU_INF/{id}:
+    get:
+      tags:
+      - SYS_MENU_INF
+      description: get SYSMENUINF by id
+      operationId: SYSMENUINFController.Get
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/models.SYSMENUINF'
+        "403":
+          description: :id is empty
+    put:
+      tags:
+      - SYS_MENU_INF
+      description: update the SYSMENUINF
+      operationId: SYSMENUINFController.Update
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for SYSMENUINF content
+        required: true
+        schema:
+          $ref: '#/definitions/models.SYSMENUINF'
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/models.SYSMENUINF'
+        "403":
+          description: :id is not int
+    delete:
+      tags:
+      - SYS_MENU_INF
+      description: delete the SYSMENUINF
+      operationId: SYSMENUINFController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: id is empty
+definitions:
+  .Time:
+    type: object
+  models.SYSMENUINF:
+    title: SYSMENUINF
+    type: object
+    properties:
+      CATEGORY:
+        type: string
+      CREATEDATE:
+        $ref: '#/definitions/time.Time'
+      CREATEEMP:
+        type: string
+      ICON:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      LEVEL:
+        type: string
+      MODIFYDATE:
+        $ref: '#/definitions/time.Time'
+      MODIFYEMP:
+        type: string
+      NAME:
+        type: string
+      PARENTID:
+        type: string
+      POS:
+        type: integer
+        format: int64
+      REMARK:
+        type: string
+      STATUS:
+        type: string
+      URL:
+        type: string
+tags:
+- name: SYS_MENU_INF
+  description: |
+    oprations for SYSMENUINF

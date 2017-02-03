@@ -79,7 +79,7 @@ func (c *SYSMENUINFController) GetAll() {
 	var sortby []string
 	var order []string
 	var query map[string]string = make(map[string]string)
-	var limit int64 = 10
+	var limit int64 = 1000
 	var offset int64 = 0
 
 	// fields: col1,col2,entity.col3

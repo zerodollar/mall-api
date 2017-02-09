@@ -1,1 +1,4 @@
 /routers/commentsRouter__________*
+/mysql/malldb_volume
+/docker/mall-api
+*.tar.gz

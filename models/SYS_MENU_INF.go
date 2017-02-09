@@ -11,20 +11,21 @@ import (
 )
 
 type SYSMENUINF struct {
-	CATEGORY   string    `orm:"column(CATEGORY);size(20)"      json:"category"`
-	Id         int       `orm:"column(ID);pk"                  json:"id"`
-	NAME       string    `orm:"column(NAME);size(200)"         json:"name"`
-	REMARK     string    `orm:"column(REMARK);size(200);null"  json:"remark"`
-	PARENTID   string    `orm:"column(PARENT_ID);size(20);null" json:"parentid"`
-	LEVEL      string    `orm:"column(LEVEL);size(2)"           json:"level"`
-	POS        int       `orm:"column(POS);null"                json:"pos"`
-	URL        string    `orm:"column(URL);size(200);null"      json:"url"`
-	ICON       string    `orm:"column(ICON);size(100);null"     json:"icon"`
-	STATUS     string    `orm:"column(STATUS);size(4);null"     json:"status"`
-	CREATEDATE time.Time `orm:"column(CREATE_DATE);type(datetime);null;auto_now_add" json:"-"`
-	CREATEEMP  string    `orm:"column(CREATE_EMP);size(10);null" json:"-"`
-	MODIFYDATE time.Time `orm:"column(MODIFY_DATE);type(datetime);null" json:"-"`
-	MODIFYEMP  string    `orm:"column(MODIFY_EMP);size(10);null" json:"-"`
+	CATEGORY   string       `orm:"column(CATEGORY);size(20)"      json:"category"`
+	Id         int          `orm:"column(ID);pk"                  json:"id"`
+	NAME       string       `orm:"column(NAME);size(200)"         json:"name"`
+	REMARK     string       `orm:"column(REMARK);size(200);null"  json:"remark"`
+	PARENTID   string       `orm:"column(PARENT_ID);size(20);null" json:"parentid"`
+	LEVEL      string       `orm:"column(LEVEL);size(2)"           json:"level"`
+	POS        int          `orm:"column(POS);null"                json:"pos"`
+	URL        string       `orm:"column(URL);size(200);null"      json:"url"`
+	ICON       string       `orm:"column(ICON);size(100);null"     json:"icon"`
+	STATUS     string       `orm:"column(STATUS);size(4);null"     json:"status"`
+	CREATEDATE time.Time    `orm:"column(CREATE_DATE);type(datetime);null;auto_now_add" json:"-"`
+	CREATEEMP  string       `orm:"column(CREATE_EMP);size(10);null" json:"-"`
+	MODIFYDATE time.Time    `orm:"column(MODIFY_DATE);type(datetime);null" json:"-"`
+	MODIFYEMP  string       `orm:"column(MODIFY_EMP);size(10);null" json:"-"`
+	SUB_MENU   []SYSMENUINF `orm:"-"                                json:"submenu"`
 }
 
 func (t *SYSMENUINF) TableName() string {
@@ -157,3 +158,5 @@ func DeleteSYSMENUINF(id int) (err error) {
 	}
 	return
 }
+
+//Add for multilelel

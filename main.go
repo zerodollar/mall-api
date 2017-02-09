@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net"
 	"os"
 
 	_ "github.com/zerodollar/mall-api/routers"
@@ -29,6 +30,31 @@ func init() {
 	orm.RegisterDataBase("default", "mysql", *dburl)
 }
 
+func getLocalIP() (error, string) {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return err, ""
+	}
+	for _, a := range addrs {
+		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return nil, ipnet.IP.String()
+			}
+		}
+	}
+	return fmt.Errorf("NO IP"), ""
+}
+func getTrustClient() []string {
+	trustIP := []string{"http*", "http://127.0.0.1*", "http://172.17.42.1*", "http://172.31.25.56*", "http://54.245.112.93*"}
+	if err, ip := getLocalIP(); err == nil {
+		trustIP = append(trustIP, "http://"+ip+"*")
+	}
+	//TODO 从DB中获取信任的客户端
+
+	trustIP = append(trustIP, os.Getenv("TRUST_URL"))
+	fmt.Println(trustIP)
+	return trustIP
+}
 func main() {
 	if beego.BConfig.RunMode == "dev" {
 		beego.BConfig.WebConfig.DirectoryIndex = true
@@ -36,7 +62,7 @@ func main() {
 	}
 
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		AllowOrigins:     []string{"http://localhost:*"},
+		AllowOrigins:     []string{"http*"}, //getTrustClient(), //  []string{"http://localhost*", "http://127*"},
 		AllowMethods:     []string{"GET", "PUT", "PATCH", "POST"},
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
